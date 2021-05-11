@@ -8,24 +8,25 @@ import (
 )
 
 // createMovieHandler POST request to /v1/movies endpoint
-func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprintln(w, "Create a new movie")
+func (app *application) createAlbumHandler(w http.ResponseWriter, r *http.Request) {
+	_, err := fmt.Fprintln(w, "Create a new album")
 	if err != nil {
 		app.notFoundResponse(w, r)
 	}
 }
 
 // showMovieHandler GET request to /v1/movies/:id endpoint
-func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) showAlbumHandler(w http.ResponseWriter, r *http.Request) {
 
 	id, err := app.readIDParam(r)
 
-	movie := data.Movie{
+	movie := data.Album{
 		ID: id,
-		Title: "Casablanca",
+		Title: "Actions",
 		CreatedAt: time.Now(),
 		Runtime: 102,
-		Genres: []string{"drama", "romance", "war"},
+		Artist: []string{"Krzysztof Penderecki", "Don Cherry"},
+		Genres: []string{"avant-garde", "classical", "jazz"},
 		Version: 1,
 	}
 
