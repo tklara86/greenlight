@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/tklara86/greenlight/internal/data"
 	"net/http"
@@ -9,9 +10,24 @@ import (
 
 // createMovieHandler POST request to /v1/movies endpoint
 func (app *application) createAlbumHandler(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprintln(w, "Create a new album")
+	
+	var input struct{
+		Title 	 	string `json:"title"`
+		Year  	  	int32 `json:"year"`
+		Runtime 	int32 `json:"runtime"`
+		Artist		[]string `json:"artist"`
+		Genres		[]string `json:"genres"`
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&input)
+
 	if err != nil {
-		app.notFoundResponse(w, r)
+		app.errorResponse(w,r, http.StatusBadRequest, err.Error())
+	}
+
+	_, err = fmt.Fprintf(w, "%+v\n", input)
+	if err != nil {
+		app.errorResponse(w,r, http.StatusBadRequest, "Error creating an album")
 	}
 }
 
